@@ -9,17 +9,17 @@ from django.http import Http404, JsonResponse
 from django.db.models.query import QuerySet
 from django.core.exceptions import ImproperlyConfigured
 
-from .system.mixin import LoginRequiredMixin
-from .system.models import Menu
+from APPS.system.mixin import LoginRequiredMixin
+# from APPS.system.models import Menu
 
 
-class BreadcrumbMixin:
-
-    def get_context_data(self, **kwargs):
-        menu = Menu.get_menu_by_request_url(url=self.request.path_info)
-        if menu is not None:
-            kwargs.update(menu)
-        return super().get_context_data(**kwargs)
+# class BreadcrumbMixin:
+#
+#     def get_context_data(self, **kwargs):
+#         menu = Menu.get_menu_by_request_url(url=self.request.path_info)
+#         if menu is not None:
+#             kwargs.update(menu)
+#         return super().get_context_data(**kwargs)
 
 
 class SandboxGetObjectMixin:

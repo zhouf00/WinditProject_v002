@@ -11,6 +11,7 @@ from django.views.generic.base import View
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
+from django.core.serializers.json import DjangoJSONEncoder
 
 from APPS.users.forms import LoginForm
 from APPS.utils.mixin_utils import LoginRequiredMixin
@@ -40,10 +41,10 @@ class IndexView(LoginRequiredMixin, View):
     """
     def get(self, request):
         if request.user.is_authenticated:
-            return render(request, 'index.html')
+            return render(request, 'personal/personal_index.html')
         else:
             return HttpResponse('失败')
-        # return HttpResponseRedirect('/personal/')
+    #     return HttpResponseRedirect('/personal/')
 
 
 class LoginView(View):
@@ -53,12 +54,12 @@ class LoginView(View):
     def get(self, request):
         if not request.user.is_authenticated:
             ret = (SystemSetup.getSystemSetupLastData())
-            return render(request, 'system/users/login.html')
+            return render(request, 'system/users/login.html', ret)
         else:
             return HttpResponse('登陆失败')
 
     def post(self, request):
-        redirect_to = request.GET.get('next', '/index')
+        redirect_to = request.GET.get('next', '/index/')
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             user_name = request.POST.get('username', '')
@@ -72,15 +73,15 @@ class LoginView(View):
                 else:
                     msg = '用户未激活'
                     ret = {'msg': msg, 'login_form':login_form}
-                    return render(request, 'system/users/login.html')
+                    return render(request, 'system/users/login.html', ret)
             else:
                 msg = '用户名或密码错误'
                 ret = {'msg':msg, 'login_form':login_form}
-                return render(request, 'system/users/login.html')
+                return render(request, 'system/users/login.html', ret)
         else:
             msg = '用户名或密码不能够为空'
             ret = {'msg':msg, 'login_form':login_form}
-            return render(request, 'system/users/login.html')
+            return render(request, 'system/users/login.html', ret)
 
 
 class LogoutView(View):
@@ -99,3 +100,16 @@ class UserView(LoginRequiredMixin, View):
     def get(self, request):
         ret = SystemSetup.getSystemSetupLastData()
         return render(request, 'system/users/user-list.html')
+
+
+class UserListView(LoginRequiredMixin, View):
+    """
+    获取用户列表信息
+    """
+    def get(self, request):
+        fields = ['id', 'name', 'gender', 'mobile', 'email', 'department__title', 'post', 'superior__name', 'is_active']
+        filters = dict()
+        if 'select' in request.GET and request.GET.get('select'):
+            filters['is_active'] = request.GET.get('select')
+        ret = dict(data=list(User.objects.filter(**filters).values(*fields).exclude(username='admin')))
+        return HttpResponse(json.dumps(ret, cls=DjangoJSONEncoder), content_type='application/json')

@@ -133,4 +133,13 @@ MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# LOGIN_URL = '/login/'
+LOGIN_URL = '/login/'
+
+# URL white list
+SAFE_URL = [r'^/$',
+            '/login/',
+            '/logout',
+            '/index/',
+            '/media/',
+            '/xadmin/',
+            ]

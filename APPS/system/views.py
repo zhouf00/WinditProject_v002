@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic.base import View
 
-from .mixin import LoginRequiredMixin
-from APPS.custom import BreadcrumbMixin
+from APPS.utils.mixin_utils import LoginRequiredMixin
 
 
 # Create your views here.
 
-class SystemView(LoginRequiredMixin, BreadcrumbMixin, TemplateView):
+class SystemView(LoginRequiredMixin, View):
 
-    template_name = 'system/system_index.html'
+    def get(self, request):
+        return render(request, 'system/system_index.html')

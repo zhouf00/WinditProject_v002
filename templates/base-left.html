@@ -21,7 +21,7 @@
                 <!-- 自动写入菜单  -->
                 {% for menu in reuqest.reveal_menu %}
                     {% if not menu.url %}
-                        <li class="nav-item has-treeview menu-open">
+                        <li id="{{ menu.code }}" class="nav-item has-treeview menu-open">
                             <a href="{{menu.url}}" class="nav-link ">
                                 <i class="nav-icon fas {{menu.icon}}"></i>
                                 <p>
@@ -41,7 +41,7 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li class="nav-item">
+                        <li id="{{ menu.code }}" class="nav-item">
                             <a href="{{ menu.url }}" class="nav-link">
                                 <i class="nav-icon fas {{ menu.icon }}"></i>
                                 <p>
@@ -53,7 +53,7 @@
                 {% endfor %}
 
                 <!-- 菜单样式 -->
-                <li class="nav-item has-treeview menu-open">
+                <li class="nav-item has-treeview menu-open" id="AAA-A">
                     <a href="#" class="nav-link ">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -62,15 +62,15 @@
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
+                        <li class="nav-item" id="BBB-B">
+                            <a href="{% url 'personal-user_info' %}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>子菜单1</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" id="ccc">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
