@@ -1,0 +1,35 @@
+{% extends 'base-left.html' %}
+{% load staticfiles %}
+
+{% block title %}       Gistandard       {% endblock %}
+
+{% block content %}
+
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">工作台</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">办公平台</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content">
+        工作台
+    </section>
+
+
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript">
+        $(function () {
+            $('#index').addClass('active');
+        });
+    </script>
+{% endblock %}

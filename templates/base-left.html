@@ -1,0 +1,93 @@
+{% extends 'head-footer.html' %}
+{% load staticfiles %}
+
+{% block middle %}
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <a href="#" class="brand-link">
+            <img src="{% static 'img/LOGO.png' %}" alt="Logo" class="brand-image elevation-3"
+            style="opacity: .8">
+            <span>中自庆安</span>
+        </a>
+        <div class="sidebar">
+            <div class="user-panel mt-2 pb-2 mb-2 d-flex">
+                <div class="info center">
+                    <a class="d-block">{{ request.user }}</a>
+                </div>
+            </div>
+        </div>
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <!-- 自动写入菜单  -->
+                {% for menu in reuqest.reveal_menu %}
+                    {% if not menu.url %}
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="{{menu.url}}" class="nav-link ">
+                                <i class="nav-icon fas {{menu.icon}}"></i>
+                                <p>
+                                    {{menu.title}}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                {% for sub in menu.sub_menu %}
+                                    <li class="nav-item">
+                                        <a href="{{ sub.code }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>{{sub.title}}</p>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{{ menu.url }}" class="nav-link">
+                                <i class="nav-icon fas {{ menu.icon }}"></i>
+                                <p>
+                                  {{menu.title}}
+                                </p>
+                            </a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- 菜单样式 -->
+                <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link ">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            菜单1
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>子菜单1</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                          菜单2
+                        </p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="content-wrapper">
+        {% block content %}
+{#            <section class="sidebar">#}
+{#                <!-- 搜索框待开发 -->#}
+{#                {{ request.user }}#}
+{#            </section>#}
+        {% endblock %}
+    </div>
+{% endblock %}

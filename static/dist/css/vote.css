@@ -1,0 +1,17 @@
+.vote-li .img-circle{
+    max-width: 90%;
+    text-align: center;
+}
+[class*=icheck-]>label {
+    padding-left: 20px!important;
+    font-size: 0.9rem;
+
+}
+@media (max-width: 500px){
+    .swal-modal {
+    width: 60%;
+}
+    .swal-text{
+        font-min-size: 18px!important;
+    }
+}
