@@ -16,6 +16,7 @@ import sys
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(BASE_DIR, 'APPS'))  # 把app集中到APPS中
+sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -32,18 +33,22 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'APPS.system',
-    'APPS.users',
-    'APPS.personal',
-    'APPS.rbac',
+    'system.apps.SystemConfig',
+    'users.apps.UsersConfig',
+    'personal.apps.PersonalConfig',
+    'rbac.apps.RbacConfig',
     'xadmin',
+    'crispy_forms',
 ]
+AUTH_USER_MODEL = 'users.UserProfile'
+AUTHENTICATION_BACKENDS = (
+    'users.views_user.UserBackend',
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -53,8 +58,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'APPS.users.middleware.MenuMiddleware',
-    # 'APPS.rbac.middleware.RbacMiddleware',
+    'users.middleware.MenuMiddleware',
+    # 'rbac.middleware.RbacMiddleware',
 ]
 
 ROOT_URLCONF = 'WinditProject_v002.urls'
@@ -143,3 +148,17 @@ SAFE_URL = [r'^/$',
             '/media/',
             '/xadmin/',
             ]
+
+# session timeout
+
+SESSION_COOKIE_AGE = 60 * 60 * 8
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_SAVE_EVERY_REQUEST = True
+
+# mail server
+# EMAIL_HOST = "mail.sandbox.com"
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = "test@sandbox.com"
+# EMAIL_HOST_PASSWORD = "1234@abcd.com"
+# EMAIL_USE_TLS = True
+# EMAIL_FROM = "test@sandbox.com"

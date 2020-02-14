@@ -2,4 +2,5 @@ from django.apps import AppConfig
 
 
 class RbacConfig(AppConfig):
-    name = 'APPS.rbac'
+    name = 'rbac'
+    verbose_name = '权限管理'

@@ -1,4 +1,4 @@
-{% extends 'head-footer.html' %}
+{% extends 'head_footer.html' %}
 {% load staticfiles %}
 
 {% block middle %}
@@ -19,20 +19,20 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
                 <!-- 自动写入菜单  -->
-                {% for menu in reuqest.reveal_menu %}
+                {% for menu in request.reveal_menu %}
                     {% if not menu.url %}
-                        <li id="{{ menu.code }}" class="nav-item has-treeview menu-open">
-                            <a href="{{menu.url}}" class="nav-link ">
-                                <i class="nav-icon fas {{menu.icon}}"></i>
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="{{menu.url}}" id="{{ menu.code }}" class="nav-link">
+                                <i class="nav-icon {{menu.icon}}"></i>
                                 <p>
                                     {{menu.title}}
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
+                            <ul class="nav nav-treeview" >
                                 {% for sub in menu.sub_menu %}
                                     <li class="nav-item">
-                                        <a href="{{ sub.code }}" class="nav-link">
+                                        <a href="{{ sub.url }}" id="{{ sub.code }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>{{sub.title}}</p>
                                         </a>
@@ -41,8 +41,8 @@
                             </ul>
                         </li>
                     {% else %}
-                        <li id="{{ menu.code }}" class="nav-item">
-                            <a href="{{ menu.url }}" class="nav-link">
+                        <li class="nav-item">
+                            <a href="{{ menu.url }}" id="{{ menu.code }}" class="nav-link">
                                 <i class="nav-icon fas {{ menu.icon }}"></i>
                                 <p>
                                   {{menu.title}}
@@ -52,32 +52,33 @@
                     {% endif %}
                 {% endfor %}
 
-                <!-- 菜单样式 -->
-                <li class="nav-item has-treeview menu-open" id="AAA-A">
-                    <a href="#" class="nav-link ">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            菜单1
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item" id="BBB-B">
-                            <a href="{% url 'personal-user_info' %}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>子菜单1</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item" id="ccc">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                          菜单2
-                        </p>
-                    </a>
-                </li>
+{#                <!-- 菜单样式 -->#}
+{#                <li class="nav-item has-treeview menu-open" id="AAA-A">#}
+{#                    <a href="#" class="nav-link ">#}
+{#                        <i class="nav-icon fas fa-tachometer-alt"></i>#}
+{#                        <p>#}
+{#                            菜单1#}
+{#                            <i class="right fas fa-angle-left"></i>#}
+{#                        </p>#}
+{#                    </a>#}
+{#                    <ul class="nav nav-treeview">#}
+{#                        <li class="nav-item active" id="BBB-B">#}
+{#                            <a href="{% url 'personal-user_info' %}" class="nav-link">#}
+{#                                <i class="far fa-circle nav-icon"></i>#}
+{#                                <p>子菜单1</p>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#                </li>#}
+{#                <li class="nav-item active" id="ccc">#}
+{#                    <a href="{% url 'system-rbac:menu' %}" class="nav-link">#}
+{#                    <a href="/system/rbac/menu/" class="nav-link">#}
+{#                        <i class="nav-icon fas fa-th"></i>#}
+{#                        <p>#}
+{#                          菜单2#}
+{#                        </p>#}
+{#                    </a>#}
+{#                </li>#}
             </ul>
         </nav>
     </aside>

@@ -1,10 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base_left.html" %}
+{% load staticfiles %}
 
-</body>
-</html>
+{% block title %}SandBox{% endblock %}
+
+{% block content %}
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">系统</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#"><i class="fas fa-tachometer-alt"></i> 办公平台</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'system' %}">系统</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{% static 'plugins/datatables/jquery.dataTables.js' %}"></script>
+    <script src="{% static '/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'sandbox/plugins/datatables/dataTables.const.js' %}"></script>
+    <script src="{% static 'plugins/layer/layer.js' %}"></script>
+
+    {% block scripts %}
+        <script type="text/javascript">
+        $(function() {
+            $('#SYSYTEM-BAISC').addClass('active');
+        });
+        </script>
+    {% endblock %}
+{% endblock %}

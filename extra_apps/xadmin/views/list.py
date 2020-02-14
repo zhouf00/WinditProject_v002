@@ -224,7 +224,7 @@ class ListAdminView(ModelAdminView):
                     except models.FieldDoesNotExist:
                         pass
                     else:
-                        if isinstance(field.rel, models.ManyToOneRel):
+                        if isinstance(field.remote_field, models.ManyToOneRel):
                             related_fields.append(field_name)
                 if related_fields:
                     queryset = queryset.select_related(*related_fields)
@@ -548,7 +548,7 @@ class ListAdminView(ModelAdminView):
                 else:
                     item.text = smart_text(value)
             else:
-                if isinstance(f.rel, models.ManyToOneRel):
+                if isinstance(f.remote_field, models.ManyToOneRel):
                     field_val = getattr(obj, f.name)
                     if field_val is None:
                         item.text = mark_safe("<span class='text-muted'>%s</span>" % EMPTY_CHANGELIST_VALUE)

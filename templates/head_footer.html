@@ -1,4 +1,4 @@
-{% extends 'base-static.html' %}
+{% extends 'base_static.html' %}
 {% load staticfiles %}
 
 {% block main %}
@@ -7,15 +7,16 @@
             <li class="navbar-nav">
                 <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
             </li>
-            <ul class="navbar-nav">
-                <li class="nav-item d-none d-sm-inline-block active">
-                <a href="#" class="nav-link">工作台</a>
-            </li>
-            </ul>
+{#            <ul class="navbar-nav">#}
+{#                <li class="nav-item d-none d-sm-inline-block">#}
+{#                <a href="{% url 'system' %}" class="nav-link">工作台{% ifequal menu.status True %}active{% endifequal %}</a>#}
+{#            </li>#}
+{#            </ul>#}
             {% for menu in request.top_menu %}
-                <li class="nav-item d-none d-sm-inline-block {% ifequal menu.status True %}active{% endifequal %}">
-                    <a href="{{ menu.url }}" id="index">{{ menu.title | default_if_none:"" }}</a>
+                <li class="navbar-nav d-none d-sm-inline-block {% ifequal menu.status True %}active{% endifequal %}">
+                    <a href="{{ menu.url }}" id="index" class="nav-link">{{ menu.title | default_if_none:"" }}</a>
                 </li>
+
             {% endfor %}
         </ul>
         {% if request.user.is_authenticated %}
@@ -67,7 +68,7 @@
                         <li class="user-header">
                             <img src="{% static 'dist/img/user1-128x128.jpg' %}" class="img-circle" alt="User Image">
                             <p>
-                                管理员
+                                {{request.user.name}}
                                 <small>测试用户</small>
                             </p>
                         </li>

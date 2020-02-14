@@ -12,7 +12,7 @@ except:
     from urllib import basejoin as urljoin
 import datetime
 from django.http import HttpResponse
-from . import settings as USettings
+from DjangoUeditor import settings as USettings
 from django.views.decorators.csrf import csrf_exempt
 
 

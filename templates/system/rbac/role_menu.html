@@ -1,0 +1,152 @@
+{% extends 'system/system_index.html' %}
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'sandbox/plugins/zTree/css/metroStyle/metroStyle.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'sandbox/plugins/zTree/css/zTreeStyle/zTreeStyle.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'sandbox/plugins/zTree/css/demo.css' %}" type="text/css">
+{% endblock %}
+
+{% block main %}
+    <style type="text/css">
+    .ztree li span.button.switch.level0 {visibility: hidden; width: 1px;}
+    .ztree li ul.level0 {padding: 0; background: none;}
+    </style>
+    <div class="card">
+        <form class="form-horizontal" id="addTreeForm" action="" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="id" value="{{ role.id }}">
+            <input type="hidden" name="tree" id="tree" value="">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-5">
+                        <label class="control-label">所有菜单</label>
+                        <div style="zTreeDemoBackground left">
+                            <ul id="left_tree" class="ztree"></ul>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <br><br><br><br>
+                        <button type="button" id="btnSave" class="btn btn-block btn-primary">生成</button>
+{#                        <button type="button" id="multiselect_leftSelected" class="btn btn-block btn-default"><i class="fas fa-angle-left"></i></button>#}
+                    </div>
+                    <div class="col-5">
+                        <label class="control-label">已选菜单</label>
+                        <ul id="right_tree" class="ztree"></ul>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'sandbox/plugins/zTree/js/jquery.ztree.core.js' %}"></script>
+    <script src="{% static 'sandbox/plugins/zTree/js/jquery.ztree.excheck.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var zTree;
+            var demoIframe;
+
+            var left_tree_setting = {
+                view: {
+                    dblClickExpand: false,
+                    showLine: true,
+                    selectedMulti: true,
+                },
+                check: {
+                    enable: true,
+                },
+                data: {
+                    key: {
+                        name: 'title',
+                        title: 'title',
+                    },
+                    simpleData: {
+                      enable: true,
+                      idKey: 'id',
+                      pIdKey: 'parent',
+                      rootPId: '',
+                    },
+                }
+            };
+            var right_tree_setting = {
+                view: {
+                    dblClickExpand: false,
+                    showLine: true,
+                    selectedMulti: true
+                },
+                check: {
+                    enable: false,
+                },
+                data: {
+                    key: {
+                        name: 'title',
+                        title: 'title',
+                    },
+                    simpleData: {
+                      enable: true,
+                      idKey: 'id',
+                      pIdKey: 'parent',
+                      rootPId: '',
+                    },
+                }
+            };
+            //获取信息
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'system-rbac:role_menu_list' %}",
+                cache: false,
+                success: function (msg) {
+                    layer.close();
+                    var t = $('#left_tree');
+                    t = $.fn.zTree.init(t, left_tree_setting, msg.data);
+                    var treeObj = $.fn.zTree.getZTreeObj('left_tree');
+                    treeObj.expandAll(true);
+                    return ;
+                }
+            });
+            //获取信息
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'system-rbac:role_menu_list' %} ",
+                data: {'id':{{ role.id }}},
+                cache: false,
+                success: function (msg) {
+                    layer.close();
+                    var t = $('#right_tree');
+                    t = $.fn.zTree.init(t, right_tree_setting, msg.data);
+                    var treeObj = $.fn.zTree.getZTreeObj('right_tree');
+                    treeObj.expandAll(true);
+                    return ;
+                }
+            });
+            //保存按键
+            $('#btnSave').click(function () {
+                var treeObj = $.fn.zTree.getZTreeObj('left_tree');
+                var nodes = treeObj.getCheckedNodes(true);
+                $('#tree').val(JSON.stringify(nodes));
+                var data = $('#addTreeForm').serialize();
+                $.ajax({
+                    type: $('#addTreeForm').attr('method'),
+                    url: "{% url 'system-rbac:role_menu' %}",
+                    data: data,
+                    cache: false,
+                    success: function (msg) {
+                        if(msg.result){
+                            layer.alert('操作成功', {icon:1}, function (index) {
+                                parent.layer.closeAll();
+                            });
+                        }else{
+                            layer.alert('操作失败', {icon:2});
+                        }
+                        return ;
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+{% endblock %}

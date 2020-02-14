@@ -4,6 +4,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Menu(models.Model):
     """
     菜单
@@ -28,7 +29,7 @@ class Menu(models.Model):
         verbose_name_plural = verbose_name
 
     @classmethod
-    def getMenuRequestUrl(self, url):
+    def getMenuByRequestUrl(self, url):
         ret = dict(menu=Menu.objects.get(url=url))
         return ret
 

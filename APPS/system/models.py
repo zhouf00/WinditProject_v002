@@ -25,7 +25,7 @@ class EmailSetup(models.Model):
     emailHost = models.CharField(max_length=30, verbose_name='SMTP服务器')
     emailPort = models.IntegerField(verbose_name='SMTP端口')
     emailUser = models.EmailField(max_length=100, verbose_name='邮箱帐号')
-    emailPasswd = models.CharField(max_length=30, verbose_name='邮箱密码')
+    emailPassword = models.CharField(max_length=30, verbose_name='邮箱密码')
 
     def __str__(self):
         return self.emailHost
